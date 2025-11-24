@@ -1,0 +1,163 @@
+/* 
+Mục tiêu của dự án cuối cùng là tạo trang web đáp ứng của riêng bạn không chỉ điều chỉnh theo kích thước màn hình mà còn theo sở thích của người dùng. Trang web của bạn sẽ hỗ trợ ba chế độ xem riêng biệt - điện thoại di động, máy tính bảng và màn hình lớn và phản ứng với cài đặt người dùng về tùy chọn giảm chuyển động và bảng màu. 
+
+Bộ khởi động được cung cấp cho bạn 
+dưới dạng tệp zip
+. Bạn sẽ cần chỉnh sửa tệp style.css để sửa đổi chế độ xem di động và thêm bốn truy vấn phương tiện. Bạn có thể tự do đưa ra nhiều lựa chọn cá nhân trong bài gửi của mình, nhưng bạn phải đáp ứng các yêu cầu sau:
+
+Bạn phải thay thế tất cả các hình ảnh từ mã khởi động. Đảm bảo bao gồm văn bản thay thế.
+
+Bạn phải thay thế tất cả nội dung trong thẻ đoạn văn từ mã khởi động. 
+
+Kiểm tra mã của bạn thông qua 
+w3validator
+ và thực hiện các thay đổi cần thiết.
+
+Chế độ xem di động của bạn phải sử dụng phương pháp ưu tiên trên thiết bị di động (vì vậy không có truy vấn phương tiện cho chế độ xem di động) và
+
+Sử dụng lưới một cột với khoảng cách 10px giữa các hàng và cột.
+
+Chế độ xem máy tính bảng của bạn phải kích hoạt ở 772px, không lặp lại các quy tắc không cần thiết và:
+
+Sử dụng lưới hai cột
+
+Đặt bán kính đường viền trên các hình để tạo hình tròn
+
+Đặt con số cuối cùng để chiếm cả hai cột
+
+Chế độ xem màn hình lớn của bạn phải kích hoạt ở 992px, không lặp lại các quy tắc không cần thiết và:
+
+Đặt mỗi con số thứ ba để chiếm cả hai cột.
+
+Xóa bán kính đường viền khỏi tất cả các hình.
+
+Đảm bảo không sử dụng chiều rộng tối đa!!
+
+Truy vấn phương tiện truyền thông giảm chuyển động ưa thích của bạn phải:
+
+Xóa hành vi cuộn
+
+Giả sử rằng bảng màu mặc định của bạn là sáng, hãy tạo truy vấn phương tiện cho các màu tối: 
+
+Thay đổi màu nền của các hình thành màu tối. ;
+
+Thay đổi màu phông chữ của các hình thành màu nhạt hơn (có thể là màu vàng)
+
+Thay đổi màu viền của các hình thành màu đen.*/
+html {
+  scroll-behavior: smooth;
+}
+body {
+  background-color: #dedede;
+  padding: 5px;
+  margin: 15px;
+  font-size: 25px;
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  text-align: center;
+  font-family: Arial, sans-serif;
+  font-size: 1.95em;
+}
+
+h2 {
+  text-align: center;
+}
+
+li {
+  margin-top: 20px;
+}
+
+img {
+  border: 5px solid blue;
+  border-radius: 35px;
+  width: 100%;
+  /* --- THÊM 2 DÒNG NÀY --- */
+  height: 300px;       /* 1. Ép tất cả ảnh cao bằng 300px (bạn có thể chỉnh số này tùy thích) */
+  object-fit: cover;   /* 2. Quan trọng: Cắt ảnh sao cho vừa khung mà không bị méo */
+  /* ----------------------- */
+
+  display: block;
+}
+
+.label {
+  text-align: center;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+/* --- MOBILE VIEW (Mặc định - Mobile First) --- */
+/* Yêu cầu: Lưới 1 cột, khoảng cách 10px */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+@media (min-width: 772px) {
+  .grid {
+    /* Yêu cầu: Lưới 2 cột */
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Yêu cầu: Hình cuối cùng chiếm cả 2 cột */
+  .grid figure:last-child {
+    grid-column: span 2;
+  }
+
+  /* Yêu cầu: Border radius để tạo hình tròn */
+  img {
+    border-radius: 50%;
+  }
+}
+
+/* --- DESKTOP VIEW (>= 992px) --- */
+@media (min-width: 992px) {
+  .grid {
+    /* Yêu cầu: Lưới 2 cột */
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Reset lại quy tắc của Tablet (hình cuối không cần chiếm 2 cột nữa trừ khi nó 
+  rơi vào logic thứ 3) */
+  .grid figure:last-child {
+    grid-column: auto; 
+  }
+
+  /* Yêu cầu: Mỗi con số thứ ba chiếm 2 cột */
+  /* Sử dụng nth-child(3n) để chọn các phần tử thứ 3, 6, 9... */
+  .grid figure:nth-child(3n) {
+    grid-column: span 2;
+  }
+
+  /* Yêu cầu: Xóa bán kính đường viền (về hình vuông) */
+  img {
+    border-radius: 0;
+  }
+}
+/* --- REDUCED MOTION --- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* --- DARK MODE --- */
+@media (prefers-color-scheme: dark) {
+  body {
+    /* Nền tối cho toàn trang */
+    background-color: #333333; 
+    color: #f0e68c; /* Màu chữ vàng nhạt cho body */
+  }
+
+  /* Yêu cầu: Thay đổi màu nền của các HÌNH (figure) thành tối */
+  figure {
+    background-color: #444; /* Màu nền tối hơn cho thẻ figure */
+    color: #f0e68c; /* Màu chữ vàng nhạt */
+    border-color: #000;
+  }
+
+  /* Yêu cầu: Màu viền ảnh thành đen */
+  img {
+    border: 5px solid #000000;
+  }
+}
